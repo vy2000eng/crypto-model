@@ -1,0 +1,8 @@
+.venv
+datapipeline/src/abstract/__pycache__
+datapipeline/src/Client/__pycache__
+datapipeline/src/controller/__pycache__
+datapipeline/src/Processors/__pycache__
+datapipeline/src/utils/__pycache__
+datapipeline/.env
+.DS_Store

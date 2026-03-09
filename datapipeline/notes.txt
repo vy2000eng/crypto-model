@@ -1,0 +1,39 @@
+Technical:   
+    RSI                   Binance Yes
+    MACD                  Binance Yes
+    Bollinger Band Upper  Binance Yes
+    Bollinger Band Lower  Binance Yes
+    Bollinger Band Middle Binance Yes
+    Volume Change         Binance Yes
+    Price Momentum        Binance Yes
+
+Market Structure:
+    Funding Rate        Binance Yes
+    Open Interest       Binance Yes
+    Long/Short Ratio    Binance Yes
+    Liquidation Levels  Binance Yes
+
+Sentiment:
+    Crypto Fear & Greed Index           alternative.me/fng Yes
+    Polymarket Fed Rate Cut Probability Polymarket API Yes
+    Polymarket Recession Probability    Polymarket API Yes
+
+ETH Specific:
+    Gas Fees                 Etherscan API Yes
+    ETH Staking Rate         Beaconcha.in API Yes
+    ETH/BTC Ratio            Binance Yes
+    DeFi TVL                 DefiLlama API Yes
+    Net Issuance / Burn Rate Etherscan API Yes
+
+Macro:
+    SPY Return Yahoo Finance Yes
+    QQQ Return Yahoo Finance Yes
+    DXY Return Yahoo Finance Yes
+    Fed Funds Rate   FRED Yes
+    CPI FRED Yes
+
+On-Chain:
+    Exchange Netflows CryptoQuant Paid
+    Active Addresses  Glassnode / Messari Paid
+    SOPR              Glassnode Paid
+
