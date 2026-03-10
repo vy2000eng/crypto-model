@@ -196,57 +196,67 @@ class PipelineProcessors(IPipelineProcessor):
         return final_df
     
 
-
     def add_market_structure(self, df):
-    # fetch market datasets
-        funding = self.fetch_funding_history()
-       # oi = self.fetch_open_interest_history()
-        #ratio = self.fetch_long_short_ratio_history()
 
-        # ensure OHLC dataframe is sorted
+        funding = self.fetch_funding_history()
+
         df = df.sort_index()
 
         # join datasets
         df = df.join(funding, how="left")
-        df["funding_rate"] = df["funding_rate"].ffill()
-        df["funding_rate"] = df["funding_rate"].fillna(0)
-        df["future_return"] = df["close"].pct_change().shift(-1)
+        df["funding_rate"] = df["funding_rate"].ffill().fillna(0)
+
+        # ------------------------------------------------
+        # Returns
+        # ------------------------------------------------
+
+        df["return_1h"] = df["close"].pct_change()
         df["log_return"] = np.log(df["close"] / df["close"].shift(1))
-        df = df.dropna()
-        df["return_1h"] = df["close"].pct_change()
+
+        # ------------------------------------------------
+        # Volatility
+        # ------------------------------------------------
 
         df["volatility_12h"] = df["return_1h"].rolling(12).std()
         df["volatility_24h"] = df["return_1h"].rolling(24).std()
 
+        # lagged volatility
+        df["volatility_12h_lag1"] = df["volatility_12h"].shift(1)
+        df["volatility_24h_lag1"] = df["volatility_24h"].shift(1)
+
+        # realized volatility
+        df["realized_vol_24h"] = np.sqrt((df["log_return"]**2).rolling(24).sum())
+
+        # ------------------------------------------------
+        # Range features
+        # ------------------------------------------------
+
         df["hl_range"] = (df["high"] - df["low"]) / df["close"]
         df["hl_volatility"] = df["hl_range"].rolling(12).mean()
 
-        df["return_1h"] = df["close"].pct_change()
+        # ------------------------------------------------
+        # Regime features
+        # ------------------------------------------------
 
-        df["volatility_12h"] = df["return_1h"].rolling(12).std()
-        df["volatility_24h"] = df["return_1h"].rolling(24).std()
+        df["volatility_compression"] = df["volatility_12h"] / df["volatility_24h"]
+        df["range_expansion"] = df["hl_range"] / df["hl_volatility"]
 
-        df["hl_range"] = (df["high"] - df["low"]) / df["close"]
-        df["hl_volatility"] = df["hl_range"].rolling(12).mean()
+        # ------------------------------------------------
+        # Future returns
+        # ------------------------------------------------
+
         df["future_return_1h"] = df["close"].pct_change(1).shift(-1)
         df["future_return_3h"] = df["close"].pct_change(3).shift(-3)
         df["future_return_6h"] = df["close"].pct_change(6).shift(-6)
         df["future_return_12h"] = df["close"].pct_change(12).shift(-12)
 
-
-
-        #df = df.join(oi, how="left")
-        #df = df.join(ratio, how="left")
-
-        # forward fill because funding / OI aren't every candle
-        #df["funding_rate"].fillna(method="ffill", inplace=True)
-       # df["open_interest"].fillna(method="ffill", inplace=True)
-        #df["long_short_ratio"].fillna(method="ffill", inplace=True)
-
-        # derived features
-       # df["oi_change"] = df["open_interest"].pct_change()
+        df = df.dropna()
 
         return df
+
+
+
+
 
     def merge_us_dollar_df(self, df, us_dollar_df):
 

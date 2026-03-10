@@ -33,14 +33,7 @@ class BinanceClient(IBinanaceClient):
           data = requests.get(url, params=params).json()
           return self.binance_client_processors.generate_df(data,"funding_rate")
 
-
-          # df = pd.DataFrame(data)
-
-          # df["timestamp"] = pd.to_datetime(df["fundingTime"], unit="ms")
-          # df["funding_rate"] = df["fundingRate"].astype(float)
-
-          # return df[["timestamp", "funding_rate"]]
-    
+     #NOTE: below only have 30 day data
      def get_open_interest(self, symbol="ETHUSDT", start_time=None, end_time=None, limit=500):
 
           url = f"{self.futures_base}/futures/data/openInterestHist"
@@ -63,12 +56,7 @@ class BinanceClient(IBinanaceClient):
 
           return self.binance_client_processors.generate_df(data, "open_interest")
 
-               # df = pd.DataFrame(data)
 
-          # df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
-          # df["open_interest"] = df["sumOpenInterest"].astype(float)
-
-          # return df[["timestamp", "open_interest"]]
      
      def get_long_short_ratio(self, symbol="ETHUSDT", start_time=None, limit=500):
 
@@ -87,10 +75,4 @@ class BinanceClient(IBinanaceClient):
           return self.binance_client_processors.generate_df(data,"long_short_ratio")
 
 
-          # df = pd.DataFrame(data)
-
-          # df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
-          # df["long_short_ratio"] = df["longShortRatio"].astype(float)
-
-          # return df[["timestamp", "long_short_ratio"]]
      

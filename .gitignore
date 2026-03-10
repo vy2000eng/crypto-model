@@ -6,3 +6,12 @@ datapipeline/src/Processors/__pycache__
 datapipeline/src/utils/__pycache__
 datapipeline/.env
 .DS_Store
+training/.env
+training/models
+models
+datapipeline/.env
+training/.env
+datapipeline/data
+training/src/abstract/__pycache__
+training/src/controller/__pycache__
+training/src/utils/__pycache__
