@@ -15,3 +15,6 @@ datapipeline/data
 training/src/abstract/__pycache__
 training/src/controller/__pycache__
 training/src/utils/__pycache__
+backtest/__pycache__
+.vscode
+training/__pycache__
